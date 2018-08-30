@@ -34,7 +34,7 @@ class SampleActivity : AppCompatActivity() {
         viewModel.snackbarMsg().observe(this, Observer { savePath ->
 
             savePath?.let { it ->
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, "已经下载到 $it", Snackbar.LENGTH_LONG).show()
                 MediaScanner.scanDir(this, it)
             }
         })
