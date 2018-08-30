@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // test
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // kotlin
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // support
+    api 'com.android.support:appcompat-v7:28.0.0-rc01'
+    api 'com.android.support:design:28.0.0-rc01'
+    // okhttp
+    api 'com.squareup.okhttp3:okhttp:3.11.0'
+    // android components
+    api 'android.arch.lifecycle:extensions:1.1.1'
+    api 'android.arch.lifecycle:reactivestreams:1.1.1'
+    // log
+    api 'com.orhanobut:logger:2.2.0'
+    // rxjava
+    api 'io.reactivex.rxjava2:rxjava:2.2.1'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    // rxlife
+    api 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.2'
+    // leak memory
+    api 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+    // glide
+    api 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+}
