@@ -1,25 +1,24 @@
 package info.hellovass.gallerydownloader.library
 
-import android.os.Environment
 import info.hellovass.gallerydownloader.library.DigestUtils.md5
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
-import java.io.File
 import java.util.concurrent.TimeUnit
 
-class DefaultOkHttpFactory private constructor() : OkHttpFactory {
+class DefaultOkHttpFactory private constructor(savePath: String) : OkHttpFactory {
 
     companion object {
 
-        // save dir
-        val dirPath = "${Environment.getExternalStorageDirectory()}${File.separator}Pero${File.separator}雾聚dalao"
+        @Volatile
+        private var INSTANCE: OkHttpFactory? = null
 
-        val INSTANCE: OkHttpFactory by lazy {
-            DefaultOkHttpFactory()
-        }
+        fun getInstance(savePath: String): OkHttpFactory =
+                INSTANCE ?: synchronized(DefaultOkHttpFactory::class.java) {
+                    INSTANCE ?: DefaultOkHttpFactory(savePath).also { INSTANCE = it }
+                }
     }
 
     private val okHttpClient: OkHttpClient
@@ -28,7 +27,7 @@ class DefaultOkHttpFactory private constructor() : OkHttpFactory {
 
     init {
         okHttpClient = createOkHttpClient()
-        presisted = DefaultPresisted(DefaultOkHttpFactory.dirPath)
+        presisted = DefaultPresisted(savePath)
     }
 
     override fun download(url: String): ObservableSource<String> {

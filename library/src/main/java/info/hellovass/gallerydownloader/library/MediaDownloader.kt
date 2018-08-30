@@ -12,6 +12,7 @@ class MediaDownloader(private val urls: List<String>,
      * 开始执行任务
      */
     fun execute(): Observable<Int> {
+
         return Observable.fromIterable(urls)
                 .flatMap { url -> okHttpFactory.download(url) }
                 .map { calculcateProgress(++completedCount) }
@@ -21,6 +22,7 @@ class MediaDownloader(private val urls: List<String>,
      * 计算完成进度
      */
     private fun calculcateProgress(completedCount: Int): Int {
+
         return (completedCount * 100.0F / urls.size).toInt()
     }
 

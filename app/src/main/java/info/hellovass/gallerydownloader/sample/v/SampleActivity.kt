@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import info.hellovass.gallerydownloader.library.MediaScanner
 import info.hellovass.gallerydownloader.sample.R
 import info.hellovass.gallerydownloader.sample.databinding.ActivitySampleBinding
 import info.hellovass.gallerydownloader.sample.ext.obtainVM
@@ -30,8 +31,12 @@ class SampleActivity : AppCompatActivity() {
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
         })
 
-        viewModel.snackbarMsg().observe(this, Observer { msg ->
-            Snackbar.make(binding.root, msg!!, Snackbar.LENGTH_LONG).show()
+        viewModel.snackbarMsg().observe(this, Observer { savePath ->
+
+            savePath?.let { it ->
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+                MediaScanner.scanDir(this, it)
+            }
         })
     }
 }

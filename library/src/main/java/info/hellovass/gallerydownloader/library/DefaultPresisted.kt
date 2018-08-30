@@ -4,10 +4,6 @@ import java.io.*
 
 class DefaultPresisted(private val savePath: String) : Presisted {
 
-    init {
-        createSaveDir(savePath)
-    }
-
     override fun write(inputsteam: InputStream, fileName: String) {
 
         // 输入输出流
@@ -41,14 +37,17 @@ class DefaultPresisted(private val savePath: String) : Presisted {
     /**
      * create FileOUtputStream for save file to storage
      */
-    private fun createFileOutputStream(fileName: String): FileOutputStream =
-            FileOutputStream("$savePath${File.separator}$fileName.jpg")
+    private fun createFileOutputStream(fileName: String): FileOutputStream {
+
+        mkSaveDir(savePath)
+        return FileOutputStream("$savePath${File.separator}$fileName.jpg")
+    }
 
 
     /**
      * create save dir if not exists
      */
-    private fun createSaveDir(savePath: String) {
+    private fun mkSaveDir(savePath: String) {
 
         val saveDir = File(savePath)
 
